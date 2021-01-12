@@ -1,3 +1,8 @@
+IMPORTANTE: El proyecto actual ha dejado de mantenerse. Ahora se ha movido y unificado junto con Mis Horarios SBX en:
+
+https://github.com/PaatyDSM/MisHorariosCpp_UWP
+
+#
 # Mis Horarios BK
 Consultá tus horarios laborales ingresando tu legajo.
 
