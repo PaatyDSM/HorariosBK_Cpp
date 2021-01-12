@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <!-- Animations -->
+    <!--  Animations  -->
     <Page.Resources>
         <!--  Storyboard resource: WelcomepPage FadeIn.  -->
         <Storyboard x:Name="WelcomepPage_FadeInAnimation">
@@ -24,12 +24,12 @@
         <!--  Storyboard resource: WelcomepPage FadeOut.  -->
         <Storyboard x:Name="WelcomepPage_FadeOutAnimation">
             <DoubleAnimation
+                Completed="NavigatetoHorariosPage"
                 Storyboard.TargetName="Page"
                 Storyboard.TargetProperty="Opacity"
                 From="1.0"
                 To="0.0"
-                Duration="0:0:0.25"
-                Completed="NavigatetoHorariosPage">
+                Duration="0:0:0.25">
                 <DoubleAnimation.EasingFunction>
                     <QuinticEase />
                 </DoubleAnimation.EasingFunction>
@@ -38,12 +38,12 @@
         <!--  Storyboard resource: WelcomepPage FadeOut2.  -->
         <Storyboard x:Name="WelcomepPage_ReleaseNotesFadeOutAnimation">
             <DoubleAnimation
+                Completed="Release_Notes_Click"
                 Storyboard.TargetName="Page"
                 Storyboard.TargetProperty="Opacity"
                 From="1.0"
                 To="0.0"
-                Duration="0:0:0.5"
-                Completed="Release_Notes_Click">
+                Duration="0:0:0.5">
                 <DoubleAnimation.EasingFunction>
                     <QuinticEase />
                 </DoubleAnimation.EasingFunction>
@@ -51,62 +51,73 @@
         </Storyboard>
     </Page.Resources>
 
-    <!-- Page -->
-    <Grid x:Name="Page"
-          Opacity="0"
-          Loaded="start_FadeInAnimation">
-        
-        <!-- BackgroundImage -->
+    <!--  Page  -->
+    <Grid
+        x:Name="Page"
+        Loaded="start_FadeInAnimation"
+        Opacity="0">
+
+        <!--  BackgroundImage  -->
         <Grid.Background>
-            <ImageBrush ImageSource="Assets/pictures/b1.jpg"
-                        Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="Assets/pictures/Welcome_background.png" Stretch="UniformToFill" />
         </Grid.Background>
-        
-        <!-- RowDefinitions -->
+
+        <!--  RowDefinitions  -->
         <Grid.RowDefinitions>
             <!--  ContentPanel  -->
             <RowDefinition Height="*" />
-            <!--  FooterPanelV2  -->
+            <!--  UpdatePanel  -->
+            <RowDefinition Height="Auto" />
+            <!--  FooterPanelV3  -->
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- ContentPanel -->
-        <StackPanel x:Name="ContentPanel"
-                    Background="#99211200"
-                    VerticalAlignment="Center">
+        <!-- HiddenOutputField -->
+        <TextBox x:Name="HiddenOutputField"
+                 Visibility="Collapsed"/>
 
-            <!-- title_textblock -->
-            <Viewbox x:Name="title_textblock">
-                <TextBlock Text="Mis Horarios BK"
-                                   Margin="24,8"
-                                   HorizontalAlignment="Center"
-                                   FontSize="22"
-                                   FontWeight="Bold"
-                                   Foreground="#FFFF7000"/>
+        <!--  ContentPanel  -->
+        <StackPanel
+            x:Name="ContentPanel"
+            VerticalAlignment="Center"
+            Background="#99211200"
+            Margin="0,18,0,0">
+
+            <!--  title_textblock  -->
+            <Viewbox x:Name="title_textblock"
+                     MaxWidth="360">
+                <TextBlock
+                    Margin="24,8"
+                    HorizontalAlignment="Center"
+                    FontSize="22"
+                    FontWeight="Bold"
+                    Foreground="#FFFF7000"
+                    Text="Mis Horarios BK"/>
             </Viewbox>
 
-            <!-- UpdatesBlock -->
-            <TextBlock x:Name="UpdateText"
-                       Margin="8"
-                       VerticalAlignment="Center"
-                       FontSize="18"
-                       HorizontalAlignment="Center"
-                       TextWrapping="Wrap"
-                       TextAlignment="Center"
-                       Foreground="#FFF5FAFF">
-                <LineBreak />
-                Ingresá con tu número de legajo
-                <LineBreak />
+            <!--  InfoText  -->
+            <TextBlock
+                x:Name="InfoText"
+                Margin="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="18"
+                Foreground="#FFF5FAFF"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                Text="Ingresá tu número de legajo">
             </TextBlock>
 
             <!--  InputPanel  -->
-            <Grid x:Name="InputPanel"
-                      HorizontalAlignment="Center"
-                      Margin="12">
+            <Grid
+                x:Name="InputPanel"
+                Margin="12"
+                HorizontalAlignment="Center">
                 <!--  InputBlocks  -->
-                <Grid x:Name="InputBlocks"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Center">
+                <Grid
+                    x:Name="InputBlocks"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <!--  textBlock  -->
                         <ColumnDefinition Width="Auto" />
@@ -114,97 +125,150 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock x:Name="textBlock"
-                                   Margin="0,0,6,0"
-                                   VerticalAlignment="Center"
-                                   FontSize="22"
-                                   Text="Legajo:"
-                                   TextWrapping="Wrap"
-                                   Foreground="#FFE6FFF6" />
+                    <TextBlock
+                        x:Name="textBlock"
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        FontSize="21"
+                        Foreground="#FFE6FFF6"
+                        Text="Legajo:"
+                        TextWrapping="Wrap"/>
                     <!--  InputField  -->
-                    <TextBox x:Name="main_legajo_input"
-                                 Grid.Column="1"
-                                 Background="#7F808080"
-                                 BorderBrush="#FF1C4B4B"
-                                 BorderThickness="1"
-                                 FontSize="22"
-                                 InputScope="Number"
-                                 PlaceholderText=" Escribe tu legajo"
-                                 Text=""
-                                 TextWrapping="Wrap"
-                                 HorizontalAlignment="Left"
-                                 MaxLength="12"
-                                 TextAlignment="Center"
-                                 MinWidth="200"
-                                 Foreground="Black"
-                                 KeyDown="main_legajo_input_KeyDown"/>
+                    <TextBox
+                        x:Name="main_legajo_input"
+                        Grid.Column="1"
+                        MinWidth="200"
+                        HorizontalAlignment="Left"
+                        Background="#90101010"
+                        BorderBrush="#FF1C4B4B"
+                        BorderThickness="1"
+                        FontSize="21"
+                        Foreground="WhiteSmoke"
+                        InputScope="Number"
+                        MaxLength="12"
+                        PlaceholderText=" Escribe tu legajo"
+                        Text=""
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        TabIndex="1"
+			            KeyDown="OnKeyDownHandler">
+                        <TextBox.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Dark">
+                                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#A0000000"/>
+
+                                        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#FF1C5B4B"/>
+                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#90202020"/>
+                                        <SolidColorBrush x:Key="TextControlForegroundFocused" Color="WhiteSmoke"/>
+                                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#FF1F4F4F"/>
+                                        <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="Orange"/>
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </TextBox.Resources>
+                    </TextBox>
                 </Grid>
             </Grid>
 
             <!--  ButtonPanel  -->
-            <Grid x:Name="ButtonPanel"
-                      Margin="24">
-                <Rectangle x:Name="Button_3D_Gradient"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           RadiusX="6"
-                           RadiusY="6"
-                           Opacity="1"
-                           Stroke="Transparent"
-                           MinHeight="34"
-                           MinWidth="256"
-                           RenderTransformOrigin="0.5,0.5" >
+            <Grid x:Name="ButtonPanel" Margin="24">
+                <Rectangle
+                    x:Name="Button_3D_Gradient"
+                    MinWidth="256"
+                    MinHeight="34"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Opacity="1"
+                    RadiusX="6"
+                    RadiusY="6"
+                    RenderTransformOrigin="0.5,0.5"
+                    Stroke="Transparent">
                     <Rectangle.RenderTransform>
-                        <CompositeTransform ScaleX="1.1" ScaleY="1.2"/>
+                        <CompositeTransform ScaleX="1.1" ScaleY="1.2" />
                     </Rectangle.RenderTransform>
                     <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                            <GradientStop Color="#FFFF7000" Offset="0"/>
-                            <GradientStop Color="#FFFE0000" Offset="1"/>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Offset="0" Color="#FFFF7000" />
+                            <GradientStop Offset="1" Color="#FFFE0000" />
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-                <Rectangle x:Name="Border"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           RadiusX="6"
-                           RadiusY="6"
-                           Opacity="1"
-                           Stroke="Black"
-                           MinHeight="34"
-                           MinWidth="256"
-                           RenderTransformOrigin="0.5,0.5" StrokeThickness="2" >
-                    <Rectangle.RenderTransform>
-                        <CompositeTransform ScaleX="1.1" ScaleY="1.2"/>
-                    </Rectangle.RenderTransform>
-                </Rectangle>
-                <Button x:Name="send_legajo"
+                <Rectangle
+                    x:Name="Border"
+                    MinWidth="256"
+                    MinHeight="34"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Opacity="1"
+                    RadiusX="6"
+                    RadiusY="6"
+                    RenderTransformOrigin="0.5,0.5"
+                    Stroke="Black"
+                    StrokeThickness="2">
+                    <Rectangle.RenderTransform>
+                        <CompositeTransform ScaleX="1.1" ScaleY="1.2" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Button
+                    x:Name="send_legajo"
+                    MinWidth="256"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    BorderThickness="1,1,2,2"
                     Click="send_legajo_button"
                     Content="Consultar horarios"
                     FontFamily="Segoe WP"
                     FontSize="16"
                     FontWeight="Bold"
-                    MinWidth="256"
                     Foreground="LightGray"
-                    BorderThickness="1,1,2,2"
-                    RenderTransformOrigin="0.5,0.5" >
+                    Background="Transparent"
+                    RenderTransformOrigin="0.5,0.5"
+                    TabIndex="2">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
                     <Button.RenderTransform>
-                        <CompositeTransform ScaleX="1.1" ScaleY="1.2"/>
+                        <CompositeTransform ScaleX="1.1" ScaleY="1.2" />
                     </Button.RenderTransform>
                 </Button>
             </Grid>
 
         </StackPanel>
 
-        <!--  FooterPanelV2  -->
-        <Grid x:Name="FooterPanelV2"
+        <!--  UpdatePanel  -->
+        <Grid x:Name="UpdatePanel"
               Grid.Row="1"
-              Background="#FFBEBEBE"
-              Height="38">
+              Background="#99211200"
+              Visibility="Collapsed">
+            <TextBlock
+                x:Name="UpdateText"
+                HorizontalAlignment="Center"
+                FontSize="18"
+                Foreground="#FFF5FAFF"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                Text="Hay actualizaciones disponibles!"
+                Margin="4,0">
+            </TextBlock>
+        </Grid>
 
-            <!-- ColumnDefinitions -->
+        <!--  FooterPanelV3  -->
+        <Grid
+            x:Name="FooterPanelV3"
+            Grid.Row="2"
+            Height="38"
+            Background="#FFBEBEBE">
+
+            <!--  ColumnDefinitions  -->
             <Grid.ColumnDefinitions>
                 <!--  Version  -->
                 <ColumnDefinition Width="*" />
@@ -213,42 +277,61 @@
                 <!--  Email  -->
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            
+
             <!--  Version  -->
-            <Button x:Name="FP_VersionButton"
-                    FontFamily="Consolas"
-                    FontSize="14"
-                    Content="v1.0"
-                    ToolTipService.ToolTip="Ver notas"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Background="{x:Null}"
-                    Foreground="Black"
-                    Click="start_ReleaseNotesFadeOutAnimation" />
-            
+            <Button
+                x:Name="FP_VersionButton"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Click="start_ReleaseNotesFadeOutAnimation"
+                Content="vN.NN"
+                FontFamily="Consolas"
+                FontSize="13"
+                Foreground="Black"
+                ToolTipService.ToolTip="Historial de cambios"
+                TabIndex="4"
+                Margin="0,0,0,-4">
+                <Button.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.ThemeDictionaries>
+                            <ResourceDictionary x:Key="Dark">
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+                                <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent"/>
+                            </ResourceDictionary>
+                        </ResourceDictionary.ThemeDictionaries>
+                    </ResourceDictionary>
+                </Button.Resources>
+            </Button>
+
             <!--  Webpage  -->
-            <HyperlinkButton x:Name="FP_WebpageButton"
-                             Grid.Column="1"
-                             FontFamily="Segoe Script"
-                             FontSize="20"
-                             Content="PaatyDSM Apps"
-                             ToolTipService.ToolTip="Visitar sitio Web" 
-                             Tag="http://paatydsm.000webhostapp.com"
-                             Click="Footer_Click"/>
-            
+            <HyperlinkButton
+                x:Name="FP_WebpageButton"
+                Grid.Column="1"
+                Click="Footer_Click"
+                Content="PaatyDSM Apps"
+                FontFamily="Segoe Script"
+                FontSize="20"
+                Tag="https://www.instagram.com/paatydsm/"
+                ToolTipService.ToolTip="Visitarme"
+                TabIndex="3" />
+
             <!--  E-mail Link  -->
-            <HyperlinkButton x:Name="FP_EmailButton"
-                             Grid.Column="2"
-                             FontSize="12"
-                             Content="Contacto"
-                             ToolTipService.ToolTip="Enviar un mail"
-                             Tag="mailto:paaty.dsm@gmail.com?Subject=PaatyDSM Apps - MAIL"
-                             HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch"
-                             Click="Footer_Click" />
-            
+            <HyperlinkButton
+                x:Name="FP_EmailButton"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Click="Footer_Click"
+                Content="Contacto"
+                FontSize="13"
+                Tag="mailto:paaty.dsm@gmail.com?Subject=PaatyDSM Apps - SBXHORARIOSUWP"
+                ToolTipService.ToolTip="Enviarme un mail"
+                TabIndex="5" />
+
         </Grid>
 
     </Grid>
-    
+
 </Page>

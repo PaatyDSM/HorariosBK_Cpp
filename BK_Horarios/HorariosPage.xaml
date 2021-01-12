@@ -8,7 +8,7 @@
 
     <!-- Animations and Styles -->
     <Page.Resources>
-        
+
         <!--  Storyboard resource: HorariosPage FadeIn.  -->
         <Storyboard x:Name="HorariosPage_FadeInAnimation">
             <DoubleAnimation
@@ -22,7 +22,7 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        
+
         <!--  Storyboard resource: HorariosPage FadeOut.  -->
         <Storyboard x:Name="HorariosPage_FadeOutAnimation">
             <DoubleAnimation
@@ -37,7 +37,7 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        
+
         <!--  Storyboard resource: HorariosPage FadeOut2.  -->
         <Storyboard x:Name="HorariosPage_FadeOutAnimation2">
             <DoubleAnimation
@@ -62,11 +62,11 @@
 
         <!-- BackgroundImage -->
         <Grid.Background>
-            <ImageBrush ImageSource="Assets/pictures/b2.jpg"
-                        Opacity="0.34"
+            <ImageBrush ImageSource="Assets/pictures/Horarios_background.png"
+                        Opacity="0.40"
                         Stretch="UniformToFill"/>
         </Grid.Background>
-        
+
         <!-- RowDefinitions -->
         <Grid.RowDefinitions>
             <!-- Title -->
@@ -86,10 +86,10 @@
                         Style="{StaticResource NavigationBackButtonNormalStyle}"
                         Opacity="1"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"/>
+                        Foreground="#FF0099FF"/>
         <!--  Title  -->
         <Viewbox x:Name="Title"
-                 MaxWidth="360">
+                 MaxWidth="380">
             <TextBlock Text="Mis Horarios BK"
                        Margin="24,4,24,0"
                        HorizontalAlignment="Center"
@@ -101,7 +101,8 @@
         <!-- ContentPanelInfo -->
         <Grid x:Name="ContentPanelInfo"
               Grid.Row="1"
-              Visibility="Collapsed">
+              Visibility="Collapsed"
+              HorizontalAlignment="Stretch">
 
             <!-- ColumnDefinitions -->
             <Grid.ColumnDefinitions>
@@ -133,7 +134,7 @@
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"
                          IsReadOnly="True"
-                         FontSize="19"
+                         FontSize="18"
                          BorderBrush="{x:Null}"
                          Background="{x:Null}"
                          IsTabStop="False"
@@ -171,27 +172,27 @@
                          BorderThickness="0"
                          IsHitTestVisible="False"/>
             </StackPanel>
-            
+
         </Grid>
 
         <!-- ContentPanel -->
         <Grid x:Name="ContentPanel"
               Grid.Row="2"
               Margin="0,8">
-            
+
             <!-- ProgressRing_animation -->
             <ProgressRing x:Name="loading_ring"
                           IsActive="True"
-                          Height="100"
-                          Width="100"
+                          Height="180"
+                          Width="180"
                           Foreground="#FF21804B"/>
-            
+
             <!-- Scroll List -->
             <ScrollViewer x:Name="List"
                           VerticalScrollMode="Auto"
-                          VerticalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Hidden"
                           Visibility="Collapsed">
-                
+
                 <!-- Asignaciones -->
                 <ListView x:Name="Asignaciones"
                           ItemsSource="{Binding Path=Asignaciones, Mode=OneWay}"
@@ -211,9 +212,7 @@
 
                                 <!-- RowDefinitions -->
                                 <Grid.RowDefinitions>
-                                    <!-- Fecha -->
-                                    <RowDefinition Height="Auto"/>
-                                    <!-- Horarios -->
+                                    <!-- FechaYHora -->
                                     <RowDefinition Height="Auto"/>
                                     <!-- Tienda -->
                                     <RowDefinition Height="Auto"/>
@@ -221,10 +220,11 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <!-- Fecha -->
-                                <Grid x:Name="Fecha"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center">
+                                <!-- FechaYHora -->
+                                <StackPanel x:Name="FechaYHora"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center">
                                     <TextBox x:Name="TextBox_fecha"
                                              Text="{Binding Path=Fecha, Mode=OneWay}"
                                              IsReadOnly="True"
@@ -237,22 +237,21 @@
                                              IsHitTestVisible="False"
                                              BorderBrush="{x:Null}"
                                              Background="{x:Null}"
-                                             IsTabStop="False"/>
-                                </Grid>
+                                             IsTabStop="False"
+                                             Margin="0,-2,0,3"/>
 
-                                <!-- Horarios -->
-                                <Grid x:Name="Horarios"
-                                      Grid.Row="1"
+                                    <!-- Horarios -->
+                                    <Grid x:Name="Horarios"
                                       VerticalAlignment="Center"
                                       HorizontalAlignment="Center"
-                                      Margin="0,-4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Text="de:"
+                                      Margin="0,-3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Text="de:"
                                              IsReadOnly="True"
                                              TextAlignment="Center"
                                              FontSize="15"
@@ -266,7 +265,7 @@
                                              BorderBrush="{x:Null}"
                                              Background="{x:Null}"
                                              IsTabStop="False"/>
-                                    <TextBox Text="{Binding Path=HoraEntrada, Mode=OneWay}"
+                                        <TextBox Text="{Binding Path=HoraEntrada, Mode=OneWay}"
                                              IsReadOnly="True"
                                              TextAlignment="Center"
                                              FontWeight="Bold"
@@ -281,8 +280,8 @@
                                              BorderBrush="{x:Null}"
                                              Background="{x:Null}"
                                              IsTabStop="False"
-                                             Foreground="#FF0078D7"/>
-                                    <TextBox Text="a:"
+                                             Foreground="#FF0099FF"/>
+                                        <TextBox Text="a:"
                                              IsReadOnly="True"
                                              TextAlignment="Center"
                                              FontSize="15"
@@ -297,7 +296,7 @@
                                              BorderBrush="{x:Null}"
                                              Background="{x:Null}"
                                              IsTabStop="False"/>
-                                    <TextBox Text="{Binding Path=HoraSalida, Mode=OneWay}" 
+                                        <TextBox Text="{Binding Path=HoraSalida, Mode=OneWay}" 
                                             IsReadOnly="True"
                                              TextAlignment="Center"
                                              FontWeight="Bold"
@@ -312,12 +311,13 @@
                                              BorderBrush="{x:Null}"
                                              Background="{x:Null}" 
                                              IsTabStop="False"
-                                             Foreground="#FF0078D7"/>
-                                </Grid>
+                                             Foreground="#FF0099FF"/>
+                                    </Grid>
+                                </StackPanel>
 
                                 <!-- Tienda -->
                                 <Grid x:Name="Tienda"
-                                      Grid.Row="2"
+                                      Grid.Row="1"
                                       VerticalAlignment="Center"
                                       HorizontalAlignment="Center"
                                       Margin="0,-2,0,0">
@@ -325,7 +325,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBox Text="en:"
+                                    <TextBox Text="Tienda:"
                                              IsReadOnly="True"
                                              TextAlignment="Center"
                                              FontSize="15"
@@ -358,22 +358,24 @@
                                 </Grid>
 
                                 <!-- Separator -->
-                                <Rectangle Height="1"
+                                <Rectangle x:Name="Separator"
+                                           Grid.Row="2"
+                                           Height="1"
                                            Stroke="#FFB4F0C8"
                                            VerticalAlignment="Bottom"
-                                           Grid.Row="3" Margin="-8,0"/>
+                                           Margin="-8,0"/>
 
                             </Grid>
-                            
+
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                    
+
                 </ListView>
-                
+
             </ScrollViewer>
-            
+
         </Grid>
 
     </Grid>
-    
+
 </Page>

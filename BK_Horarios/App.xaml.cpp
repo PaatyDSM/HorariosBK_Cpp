@@ -41,7 +41,6 @@ void App::OnLaunched(LaunchActivatedEventArgs^ e)
 		rootFrame = ref new Frame();
 
 		rootFrame->NavigationFailed += ref new NavigationFailedEventHandler(this, &App::OnNavigationFailed);
-		//rootFrame->Navigated += RootFrame_Navigated;
 
 		if (e->PreviousExecutionState == ApplicationExecutionState::Terminated)
 		{
@@ -62,6 +61,7 @@ void App::OnLaunched(LaunchActivatedEventArgs^ e)
 			}
 			// Poner el marco en la ventana actual.
 			Window::Current->Content = rootFrame;
+
 			// Asegurarse de que la ventana actual está activa.
 			Window::Current->Activate();
 		}
@@ -103,9 +103,9 @@ void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 /// </summary>
 /// <param name="sender">Marco que produjo el error de navegación</param>
 /// <param name="e">Detalles sobre el error de navegación</param>
-void App::OnNavigationFailed(Platform::Object ^sender, NavigationFailedEventArgs ^e)
+void App::OnNavigationFailed(Platform::Object^ sender, NavigationFailedEventArgs^ e)
 {
 	/// <param name="sender">Marco que produjo el error de navegación</param>
 	/// <param name="e">Detalles sobre el error de navegación</param>
-	throw ref new FailureException("Error al cargar la página \"" + e->SourcePageType.Name + "\"");
+	throw ref new FailureException("Error al cargar la siguiente página: \"" + e->SourcePageType.Name + "\"");
 }

@@ -28,15 +28,21 @@ MainPage::MainPage()
 // OnNavigatedTo function
 void MainPage::OnNavigatedTo(NavigationEventArgs^ e)
 {
-	// Launch UWP apps in full-screen mode on mobile devices or tablets.
-	SetFullScreenModeON();
+	// Set fullscreen on mobile devices and tablets.
+	SetFullScreenModeON(0);
+
+	// Set windows size.
+	ApplicationView^ view = ApplicationView::GetForCurrentView();
+	view->TryResizeView(Size(500, 680));
+	view->SetPreferredMinSize(Size(500, 840));
 
 	// When the navigation stack isn't restored navigate to the WelcomePage
 	if (Page_Frame->Content == nullptr)
 	{
-		if (!Page_Frame->Navigate(TypeName{"BK_HORARIOS.WelcomePage", TypeKind::Custom}))
+		if (!Page_Frame->Navigate(TypeName{ "BK_HORARIOS.WelcomePage", TypeKind::Custom }))
 		{
-			// Clear the status block
+			// Show navigation error
+			Frame->Background = ref new SolidColorBrush(Windows::UI::Colors::Gray);
 			NotifyUser("Hubo un problema al cargar la página principal.", NotifyType::ErrorMessage);
 		}
 	}
@@ -73,16 +79,36 @@ void MainPage::NotifyUser(String^ strMessage, NotifyType type)
 }
 
 // Set fullscreen
-void MainPage::SetFullScreenModeON()
+/// <summary>
+/// Launch UWP apps in full-screen mode on mobile devices and tablets, desktop or both.
+/// </summary>
+/// <param name="device">0 for Mobile and Tablets, 1 for PC and 2 for both platforms</param>
+void MainPage::SetFullScreenModeON(int device)
 {
-	// Launch UWP apps in full-screen mode on mobile devices or tablets.
-	{
-		String^ platformFamily = AnalyticsInfo::VersionInfo->DeviceFamily;
+	String^ platformFamily = AnalyticsInfo::VersionInfo->DeviceFamily;
 
+	if (device == 0)
+	{
 		if (platformFamily->Equals("Windows.Mobile"))
 		{
 			ApplicationView^ view = ApplicationView::GetForCurrentView();
 			view->TryEnterFullScreenMode();
 		}
 	}
+	else if (device == 1)
+	{
+		if (platformFamily->Equals("Windows.Desktop"))
+		{
+			ApplicationView^ view = ApplicationView::GetForCurrentView();
+			view->TryEnterFullScreenMode();
+		}
+	}
+	else if (device == 2)
+	{
+		ApplicationView^ view = ApplicationView::GetForCurrentView();
+		view->TryEnterFullScreenMode();
+	}
+
+
 }
+

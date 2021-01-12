@@ -198,12 +198,6 @@
     <Image Include="Assets\Square150x150Logo.scale-400.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\pictures\b1.jpg">
-      <Filter>Assets\pictures</Filter>
-    </Image>
-    <Image Include="Assets\pictures\b2.jpg">
-      <Filter>Assets\pictures</Filter>
-    </Image>
     <Image Include="Assets\LargeTile.scale-100.png">
       <Filter>Assets</Filter>
     </Image>
@@ -219,6 +213,12 @@
     <Image Include="Assets\LargeTile.scale-400.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\pictures\Welcome_background.png">
+      <Filter>Assets\pictures</Filter>
+    </Image>
+    <Image Include="Assets\pictures\Horarios_background.png">
+      <Filter>Assets\pictures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -233,8 +233,6 @@
     <ResourceCompile Include="BK_Horarios.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BK_HORARIOS_TemporaryKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
-    <None Include="BK_HORARIOS_StoreKey.pfx" />
   </ItemGroup>
 </Project>

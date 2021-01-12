@@ -2,16 +2,25 @@
 #include "WelcomePage.xaml.h"
 #include "HorariosPage.xaml.h"
 #include "ReleaseNotesPage.xaml.h"
+#include "Sample-Utils\Helpers.h"
 #include <fstream>
+#include <thread>
+#include <pplawait.h>
+#include <string.h>
 
 using namespace BK_HORARIOS;
 using namespace std;
+using namespace Concurrency;
 using namespace Platform;
 using namespace Windows::Foundation;
 using namespace Windows::Storage;
+using namespace Windows::System;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
+
+static String^ CurrentVersionNumber = "v1.1";
+static int CurrentVersionNumberInt = 110;
 
 // Function start_fadein_animation
 void WelcomePage::WelcomePage::start_FadeInAnimation(void)
@@ -22,30 +31,24 @@ void WelcomePage::WelcomePage::start_FadeInAnimation(void)
 // OnNavigatedTo function
 void WelcomePage::OnNavigatedTo(NavigationEventArgs^ e)
 {
-	// Se invoca cuando se presionan los botones de retroceso de hardware o software.
-	SystemNavigationManager::GetForCurrentView()->BackRequested += ref new EventHandler<BackRequestedEventArgs^>(this, &WelcomePage::App_BackRequested);
-
 	// A pointer back to the main page.  This is needed if you want to call methods in MainPage such as NotifyUser()
 	rootPage = MainPage::Current;
 
-	if (e->Content == "BackButtonPressed")
+	if (e->Content->ToString() == "BackButtonPressed")
 	{
 		// Clear errors
 		rootPage->NotifyUser("", NotifyType::StatusMessage);
 	}
 
+	// Set version number
+	FP_VersionButton->Content = CurrentVersionNumber;
+
 	// Read last used legajo
 	read_legajo();
 
-	// Hide message after ms amount of time
-	//rootPage->Await(5000, false);
-}
+	// Check for updates
+	//CheckUpdates();
 
-// Se invoca cuando se presionan los botones de retroceso de hardware o software.
-void WelcomePage::App_BackRequested(Object^ sender, BackRequestedEventArgs^ e)
-{
-	e->Handled = true;
-	//Backbutton1(sender, nullptr);
 }
 
 // Read last used legajo
@@ -59,7 +62,7 @@ void WelcomePage::read_legajo(void)
 	string filename = localfolder + "\\lastlegajo.tmp";
 
 	// Read file
-	char fileData[256] = "";
+	char fileData[16] = "";
 	ifstream in(filename);
 	if (in)
 	{
@@ -99,12 +102,12 @@ void WelcomePage::send_legajo_button(Object^ sender, RoutedEventArgs^ e)
 	// If no input
 	if (str.length() == 0)
 	{
-		rootPage->NotifyUser("Primero debe ingresar un legajo.", NotifyType::ErrorMessage);
+		rootPage->NotifyUser("Primero tenés que ingresar un legajo.", NotifyType::ErrorMessage);
 	}
 	// If illegal character
 	else if (check != string::npos)
 	{
-		rootPage->NotifyUser("El legajo ingresado no es válido", NotifyType::ErrorMessage);
+		rootPage->NotifyUser("El legajo que ingresaste no es válido.", NotifyType::ErrorMessage);
 	}
 	// If valid
 	else
@@ -112,9 +115,6 @@ void WelcomePage::send_legajo_button(Object^ sender, RoutedEventArgs^ e)
 		// Start FadeOutAnimation
 		start_FadeOutAnimation();
 	}
-
-	// Hide message after ms amount of time
-	//rootPage->Await(3000, false);
 }
 
 // Function start FadeOutAnimation
@@ -153,7 +153,53 @@ void WelcomePage::Release_Notes_Click(Object^ sender, RoutedEventArgs^ e)
 	this->Frame->Navigate(TypeName(ReleaseNotesPage::typeid));
 }
 
-void WelcomePage::main_legajo_input_KeyDown(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e)
+void WelcomePage::CheckUpdates(void)
 {
+	HiddenOutputField->Text = "";
+	try
+	{
+		filter = ref new HttpBaseProtocolFilter();
+		filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
+		filter->CacheControl->WriteBehavior = HttpCacheWriteBehavior::Default;
+		client = ref new HttpClient(filter);
+		create_task(client->GetAsync(ref new Uri("https://paatydsm.000webhostapp.com/apps/uwp/bk_horarios/version/last.txt"))).then([=](HttpResponseMessage^ response)
+			{
+				return Helpers::DisplayTextResultAsync(response, HiddenOutputField);
+			},
+			task_continuation_context::use_current()).then([=](task<HttpResponseMessage^> previousTask)
+				{
+					try
+					{
+						// Check if any previous task threw an exception.
+						HttpResponseMessage^ response = previousTask.get();
 
+						// Convert String^ to string
+						wstring w_str(HiddenOutputField->Text->Data());
+						string str(w_str.begin(), w_str.end());
+						int LastVersionAvailable = stoi(str);
+
+						if (CurrentVersionNumberInt < LastVersionAvailable)
+						{
+							UpdatePanel->Visibility = Windows::UI::Xaml::Visibility::Visible;
+						}
+					}
+					catch (Exception ^ ex)
+					{
+						UpdatePanel->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+					}
+				}
+			);
+	}
+	catch (Exception ^ ex)
+	{
+		UpdatePanel->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	}
+}
+
+void WelcomePage::OnKeyDownHandler(Object^ sender, KeyEventArgs^ e)
+{
+	if (e->VirtualKey == VirtualKey::Enter)
+	{
+		send_legajo_button(nullptr, nullptr);
+	}
 }

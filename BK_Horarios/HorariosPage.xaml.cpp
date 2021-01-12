@@ -21,16 +21,12 @@ using namespace Windows::Web::Http::Headers;
 using namespace Windows::System::Profile;
 
 // Path for local saving
-/// orig: non static
 static wstring w_localfolder(ApplicationData::Current->LocalFolder->Path->Begin());
 static string localfolder(w_localfolder.begin(), w_localfolder.end());
 
 // Function start_fadein_animation
 void HorariosPage::HorariosPage::start_FadeInAnimation(void)
 {
-	// Show Message
-	rootPage->NotifyUser("Consultando horarios...", NotifyType::StatusMessage);
-
 	HorariosPage_FadeInAnimation->Begin();
 }
 
@@ -43,10 +39,12 @@ void HorariosPage::OnNavigatedTo(NavigationEventArgs^ e)
 	// Set Back Button on Desktop devices
 	SetBackButton();
 
+	// Se invoca cuando se presionan los botones de retroceso de hardware o software.
+	SystemNavigationManager::GetForCurrentView()->BackRequested += ref new EventHandler<BackRequestedEventArgs^>(this, &HorariosPage::App_BackRequested);
+
 	// Convert String^ to int
 	wstring w_legajo(((String^)e->Parameter)->Begin());
 	string legajo(w_legajo.begin(), w_legajo.end());
-	int legajo_number = stoi(legajo);
 
 	// CacheControl
 	filter = ref new HttpBaseProtocolFilter();
@@ -56,15 +54,22 @@ void HorariosPage::OnNavigatedTo(NavigationEventArgs^ e)
 	// Initialize httpclient
 	client = ref new HttpClient(filter);
 
-	// Create url with legajo_number
-	string url = "http://proveedores.alsea.com.ar:48080/asignaciones-server/mobile/main/asignaciones/legajos/" + legajo;
+	// Create url with 'legajo' string
+	string url = "http://proveedores.alsea.com.ar:25080/asignaciones-server/mobile/main/asignaciones/legajos/" + legajo;
 
 	// Save last used legajo
-	save_legajo(legajo);
+	save_last_legajo(legajo);
 
 	// Start Connection Async
-	StartConnectionAsync(url, legajo);
+	StartConnectionAsync(url, legajo, 0);
 
+}
+
+// Se invoca cuando se presionan los botones de retroceso de hardware o software.
+void HorariosPage::App_BackRequested(Object^ sender, BackRequestedEventArgs^ e)
+{
+	e->Handled = true;
+	Backbutton1(sender, nullptr);
 }
 
 // Set Back Button on Desktop devices
@@ -79,7 +84,7 @@ void HorariosPage::SetBackButton()
 }
 
 // Save last used legajo
-void HorariosPage::save_legajo(string legajo)
+void HorariosPage::save_last_legajo(string legajo)
 {
 	// Write file
 	ofstream out(localfolder + "\\lastlegajo.tmp");
@@ -118,7 +123,7 @@ void HorariosPage::Footer_Click(Object^ sender, RoutedEventArgs^ e)
 // Go back to MainPage with uncleared errors
 void HorariosPage::GoPageBack()
 {
-	///Specific Fix (#bug6161013)
+	///Specific Fix (#bug013)
 	HiddenOutputField->Text = "{\"asignaciones\":[],\"fechaConsulta\":\"\",\"legajo\":\"\"}";
 	DataContext = ref new User(HiddenOutputField->Text);
 
@@ -142,24 +147,37 @@ void HorariosPage::Backbutton1(Object^ sender, RoutedEventArgs^ e)
 }
 
 // Save cache to a file
-void HorariosPage::save_cache(String^ cache)
+void HorariosPage::save_cache(String^ cache, string legajo)
 {
 	// Convert String^ to string
-		wstring w_data(cache->Begin());
-		string s_data(w_data.begin(), w_data.end());
+	wstring w_data(cache->Begin());
+	string s_data(w_data.begin(), w_data.end());
 
-	// Write file
-		ofstream out(localfolder + "\\lasthorarios.tmp");
-		if (out)
-		{
-			out << s_data;
-			out.close();
-		}
+	// Save last used legajo to a file
+	ofstream out(localfolder + "\\lasthorarios.tmp");
+	if (out)
+	{
+		out << s_data;
+		out.close();
+	}
+
+	// cache legajo
+	ofstream out_c(localfolder + "\\lasthorarios" + legajo + ".tmp");
+	if (out_c)
+	{
+		out_c << s_data;
+		out_c.close();
+	}
+
 }
 
 // Start Connection Async
-void HorariosPage::StartConnectionAsync(string url, string legajo)
+void HorariosPage::StartConnectionAsync(string url, string legajo, int retry)
 {
+	// Show Message
+	///Specific Fix (#bug090)
+	rootPage->NotifyUser("Consultando horarios...", NotifyType::StatusMessage);
+
 	// Convert string to String^
 	wstring w_url(url.begin(), url.end());
 	String^ baseUri = ref new String(w_url.c_str());
@@ -167,84 +185,91 @@ void HorariosPage::StartConnectionAsync(string url, string legajo)
 	// Do an asynchronous GET. We need to use use_current() with the continuations since the tasks
 	// are completed on background threads and we need to run on the UI thread to update the UI.
 	create_task(client->GetAsync(ref new Uri(baseUri))).then([=](HttpResponseMessage^ response)
-	{
-		//if (response->EnsureSuccessStatusCode())
-		return Helpers::DisplayTextResultAsync(response, HiddenOutputField);
-	},
-		task_continuation_context::use_current()).then([=](task<HttpResponseMessage^> previousTask)
-	{
-		try
 		{
-			// Check if any previous task threw an exception.
-			HttpResponseMessage^ response = previousTask.get();
-
-			// Convert String^ to string
-			wstring w_str(HiddenOutputField->Text->Data());
-			wstring wide(w_str);
-			string str3(wide.begin(), wide.end());
-
-			// Find ':[{' string to check if the data contains a valid legajo info
-			size_t found = str3.find(":[{");
-
-			// If true
-			if (found != std::string::npos)
+			//if (response->EnsureSuccessStatusCode())
+			return Helpers::DisplayTextResultAsync(response, HiddenOutputField);
+		},
+		task_continuation_context::use_current()).then([=](task<HttpResponseMessage^> previousTask)
 			{
 				try
 				{
-					// Parse JSON
-					DataContext = ref new User(HiddenOutputField->Text);
+					// Check if any previous task threw an exception.
+					HttpResponseMessage^ response = previousTask.get();
 
-					// Show successfull!
-					rootPage->NotifyUser("Horarios leídos!", NotifyType::StatusMessage);
+					// Convert String^ to string
+					wstring w_str(HiddenOutputField->Text->Data());
+					string str3(w_str.begin(), w_str.end());
 
-					// Save cache
-					save_cache(HiddenOutputField->Text);
+					// Find ':[{' string to check if the data contains a valid legajo info
+					size_t found = str3.find(":[{");
 
-					// Show ContentPanelInfo
-					ContentPanelInfo->Visibility = Windows::UI::Xaml::Visibility::Visible;
+					// If true
+					if (found != std::string::npos)
+					{
+						try
+						{
+							// Parse JSON
+							DataContext = ref new User(HiddenOutputField->Text);
 
-					// Stop ProgressRing
-					loading_ring->IsActive = false;
+							// Show successfull!
+							rootPage->NotifyUser("Horarios leídos!", NotifyType::StatusMessage);
 
-					// Show list
-					List->Visibility = Windows::UI::Xaml::Visibility::Visible;
+							// Save cache
+							save_cache(HiddenOutputField->Text, legajo);
 
-					// Hide message after ms amount of time
-					//rootPage->Await(3000, false);
+							// Show ContentPanelInfo
+							ContentPanelInfo->Visibility = Windows::UI::Xaml::Visibility::Visible;
+
+							// Show list
+							List->Visibility = Windows::UI::Xaml::Visibility::Visible;
+
+							// Stop ProgressRing
+							loading_ring->IsActive = false;
+						}
+						catch (Exception ^ ex)
+						{
+							// Database parsing error
+							rootPage->NotifyUser("Hay problemas con la conexión a internet.\nReintentando...", NotifyType::ErrorMessage);
+							if (retry == 0)
+							{
+								StartConnectionAsync(url, legajo, 1);
+							}
+							else
+							{
+								rootPage->NotifyUser("Hay problemas con la conexión a internet.", NotifyType::ErrorMessage);
+
+								// Try to read from cache
+								read_cache(legajo, 1);
+							}
+						}
+					}
+					else
+					{
+						// Legajo NOT FOUND error
+						rootPage->NotifyUser("El legajo no existe o no tiene asignado los horarios.", NotifyType::ErrorMessage);
+						GoPageBack();
+					}
 				}
-				catch (Exception^ ex)
+				catch (Exception^)
 				{
-					// Database parsing error
-					rootPage->NotifyUser("Hubo un problema con la conexión a internet.\nIntente nuevamente.", NotifyType::StatusMessage);
+					// If no internet connection is available, check if the last legajo obtained is equal to
+					// the actual legajo and read it from the cache and show a message.
+
+					rootPage->NotifyUser("Error. No hay conexión a internet.", NotifyType::ErrorMessage);
+
+					// Try to read from cache
+					read_cache(legajo, 0);
 				}
 			}
-			else
-			{
-				// Legajo NOT FOUND error
-				rootPage->NotifyUser("El legajo no existe o no contiene los horarios!", NotifyType::ErrorMessage);
-				GoPageBack();
-			}
-		}
-		catch (Exception^)
-		{
-			// If no internet connection is available, check if the last legajo obtained is equal to
-			// the actual legajo and read it from the cache and show a message.
-
-			rootPage->NotifyUser("Error. No hay conexión a internet.", NotifyType::ErrorMessage);
-
-			// Try to read from cache
-			read_cache(legajo);
-		}
-	}
-	);
+		);
 }
 
 // Read from cache
-void HorariosPage::read_cache(string legajo)
+void HorariosPage::read_cache(string legajo, int database_error)
 {
 	// Read file
 	string data;
-	ifstream in(localfolder + "\\lasthorarios.tmp");
+	ifstream in(localfolder + "\\lasthorarios" + legajo + ".tmp");
 	if (in)
 	{
 		getline(in, data);
@@ -254,27 +279,34 @@ void HorariosPage::read_cache(string legajo)
 	// Check legajo first and if valid, parse JSon
 
 	// Search for legajo item
-		string query = "\"legajo\":\"" + legajo + "\"}";
-		size_t found = data.find(query);
+	string query = "\"legajo\":\"" + legajo + "\"}";
+	size_t found = data.find(query);
 
 	// If true
 	if (found != std::string::npos)
 	{
 		// Convert string to String^
-			wstring w_data = wstring(data.begin(), data.end());
-			String^ Str_data = ref new String(w_data.c_str());
+		wstring w_data = wstring(data.begin(), data.end());
+		String^ Str_data = ref new String(w_data.c_str());
 
 		// Parse JSon
-			DataContext = ref new User(Str_data);
+		DataContext = ref new User(Str_data);
 
 		// Show ContentPanelInfo
-			ContentPanelInfo->Visibility = Windows::UI::Xaml::Visibility::Visible;
+		ContentPanelInfo->Visibility = Windows::UI::Xaml::Visibility::Visible;
 
 		// Stop ProgressRing
-			loading_ring->IsActive = false;
+		loading_ring->IsActive = false;
 
 		// Show ErrorMessage
+		if (database_error == 1)
+		{
+			rootPage->NotifyUser("Hay problemas con la conexión a internet.\nÚltimos horarios leídos de la memoria", NotifyType::ErrorMessage);
+		}
+		else
+		{
 			rootPage->NotifyUser("Error. No hay conexión a internet.\nÚltimos horarios leídos de la memoria", NotifyType::ErrorMessage);
+		}
 
 		// Show list
 		List->Visibility = Windows::UI::Xaml::Visibility::Visible;

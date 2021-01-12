@@ -21,6 +21,7 @@ namespace BK_HORARIOS
 		MainPage^ rootPage;
 
 		void start_FadeInAnimation(void);
+		void App_BackRequested(Object^ sender, BackRequestedEventArgs^ e);
 		void SetBackButton(void);
 		void LoadReleaseNotes(void);
 		void start_FadeOutAnimation(void);

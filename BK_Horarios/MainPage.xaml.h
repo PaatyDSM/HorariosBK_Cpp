@@ -27,7 +27,7 @@ namespace BK_HORARIOS
 		virtual void OnNavigatedTo(NavigationEventArgs^ e) override;
 
 	private:
-		void SetFullScreenModeON();
+		void SetFullScreenModeON(int device);
 
 	internal:
 		static MainPage^ Current;

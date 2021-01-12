@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="Black">
+    Background="Black"
+    mc:Ignorable="d">
 
     <Page.Resources>
         <Style x:Name="HorariosListViewStyle" TargetType="ListViewItem">
@@ -15,12 +15,12 @@
         <!--  Storyboard resource: ReleaseNotesPage FadeIn.  -->
         <Storyboard x:Name="ReleaseNotes_FadeInAnimation">
             <DoubleAnimation
+                Completed="LoadReleaseNotes"
                 Storyboard.TargetName="Page"
                 Storyboard.TargetProperty="Opacity"
                 From="0.0"
                 To="1.0"
-                Duration="0:0:0.25"
-                Completed="LoadReleaseNotes">
+                Duration="0:0:0.25">
                 <DoubleAnimation.EasingFunction>
                     <QuinticEase EasingMode="EaseIn" />
                 </DoubleAnimation.EasingFunction>
@@ -29,38 +29,38 @@
         <!--  Storyboard resource: ReleaseNotesPage FadeOut.  -->
         <Storyboard x:Name="ReleaseNotes_FadeOutAnimation">
             <DoubleAnimation
+                Completed="Backbutton1"
                 Storyboard.TargetName="Page"
                 Storyboard.TargetProperty="Opacity"
                 From="1.0"
                 To="0.0"
-                Duration="0:0:0.25"
-                Completed="Backbutton1">
+                Duration="0:0:0.25">
                 <DoubleAnimation.EasingFunction>
                     <QuinticEase />
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
     </Page.Resources>
-    
-    <!-- Page -->
-    <Grid x:Name="Page"
-          Opacity="0"
-          Loaded="start_FadeInAnimation">
 
-        <!-- BackgroundImage -->
+    <!--  Page  -->
+    <Grid
+        x:Name="Page"
+        Loaded="start_FadeInAnimation"
+        Opacity="0">
+
+        <!--  BackgroundImage  -->
         <Grid.Background>
-            <ImageBrush ImageSource="Assets/pictures/Welcome_background.png"
-                        Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="Assets/pictures/Welcome_background.png" Stretch="UniformToFill" />
         </Grid.Background>
 
-        <!-- RowDefinitions -->
+        <!--  RowDefinitions  -->
         <Grid.RowDefinitions>
-            <!-- Grid:Title -->
-            <RowDefinition Height="Auto"/>
-            <!-- Grid:ContentPanel -->
-            <RowDefinition Height="*"/>
-            <!-- Grid:FooterPanel -->
-            <RowDefinition Height="Auto"/>
+            <!--  Grid:Title  -->
+            <RowDefinition Height="Auto" />
+            <!--  Grid:ContentPanel  -->
+            <RowDefinition Height="*" />
+            <!--  Grid:FooterPanel  -->
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Button x:Name="BackButtonPC"
@@ -68,92 +68,99 @@
                         Style="{StaticResource NavigationBackButtonNormalStyle}"
                         Opacity="1"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"/>
-        
+                        Foreground="#FF0099FF"/>
+
         <!--  Title  -->
-        <Grid x:Name="TopPanel"
-              VerticalAlignment="Top"
-              Margin="24,12"
-              MaxWidth="360">
+        <Grid
+            x:Name="TopPanel"
+            MaxWidth="360"
+            Margin="24,12"
+            VerticalAlignment="Top">
 
             <Viewbox x:Name="Title_effects1">
                 <TextBlock
-                    Text="Notas de publicación"
+                    Padding="1,1,0,1"
+                    HorizontalAlignment="Center"
                     FontFamily="Gabriola"
                     FontSize="18"
                     FontWeight="Bold"
-                    HorizontalAlignment="Center"
-                    TextAlignment="Center"
-                    TextLineBounds="Tight"
                     Foreground="White"
-                    Padding="1,1,0,1" />
+                    Text="Notas de publicación"
+                    TextAlignment="Center"
+                    TextLineBounds="Tight" />
             </Viewbox>
             <Viewbox x:Name="Title_effects2">
                 <TextBlock
-                    Text="Notas de publicación"
+                    Padding="0,1,1,0"
+                    HorizontalAlignment="Center"
                     FontFamily="Gabriola"
                     FontSize="18"
                     FontWeight="Bold"
-                    HorizontalAlignment="Center"
-                    TextAlignment="Center"
-                    TextLineBounds="Tight"
                     Foreground="White"
-                    Padding="0,1,1,0" />
+                    Text="Notas de publicación"
+                    TextAlignment="Center"
+                    TextLineBounds="Tight" />
             </Viewbox>
             <Viewbox x:Name="Title">
                 <TextBlock
-                    Text="Notas de publicación"
+                    MinHeight="10"
+                    HorizontalAlignment="Center"
                     FontFamily="Gabriola"
                     FontSize="18"
                     FontWeight="Bold"
-                    HorizontalAlignment="Center"
-                    TextAlignment="Center"
-                    TextLineBounds="Tight"
                     Foreground="#FF082118"
-                    MinHeight="10"/>
+                    Text="Notas de publicación"
+                    TextAlignment="Center"
+                    TextLineBounds="Tight" />
             </Viewbox>
         </Grid>
 
-        <!-- ContentPanel -->
-        <Grid x:Name="ContentPanel"
-              Grid.Row="1"
-              Background="#B0211200">
-            <!-- ProgressRing_animation -->
-            <ProgressRing x:Name="loading_ring"
-                          IsActive="True"
-                          Height="100"
-                          Width="100"
-                          Foreground="#FF21804B"/>
+        <!--  ContentPanel  -->
+        <Grid
+            x:Name="ContentPanel"
+            Grid.Row="1"
+            Background="#B0211200">
+            <!--  ProgressRing_animation  -->
+            <ProgressRing
+                x:Name="loading_ring"
+                Width="180"
+                Height="180"
+                Foreground="#FF21804B"
+                IsActive="True" />
             <ScrollViewer
-                    VerticalScrollMode="Auto"
-                    VerticalScrollBarVisibility="Auto"
-                    Height="Auto"
-                    Margin="6,12">
-                    <!-- Release notes Box-->
-                    <TextBox x:Name="Notes"
-                             FontFamily="Consolas"
-                             FontSize="16"
-                             IsReadOnly="True"
-                             IsHitTestVisible="False"
-                             IsSpellCheckEnabled="False"
-                             BorderThickness="0"
-                             TextWrapping="Wrap"
-                             Background="#56FFFFFF"
-                             Foreground="Black"
-                             TextAlignment="Center"
-                             Text="Cargando notas de publicación..."
-                             SelectionHighlightColor="{x:Null}"/>
-                </ScrollViewer>
+                Height="Auto"
+                Margin="6,12"
+                VerticalScrollBarVisibility="Auto"
+                VerticalScrollMode="Auto"
+                Background="Transparent"
+                Foreground="Transparent" >
+                <!--  Release notes Box  -->
+                <TextBox
+                    x:Name="Notes"
+                    Background="#56FFFFFF"
+                    BorderThickness="0"
+                    FontFamily="Consolas"
+                    FontSize="16"
+                    Foreground="Black"
+                    IsHitTestVisible="False"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False"
+                    SelectionHighlightColor="{x:Null}"
+                    Text="Cargando notas de publicación..."
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"/>
+            </ScrollViewer>
 
         </Grid>
 
         <!--  FooterPanelV2  -->
-        <Grid x:Name="FooterPanelV2"
-              Grid.Row="2"
-              Background="#FFBEBEBE"
-              Height="38">
+        <Grid
+            x:Name="FooterPanelV2"
+            Grid.Row="2"
+            Height="38"
+            Background="#FFBEBEBE">
 
-            <!-- ColumnDefinitions -->
+            <!--  ColumnDefinitions  -->
             <Grid.ColumnDefinitions>
                 <!--  Version  -->
                 <ColumnDefinition Width="*" />
@@ -164,39 +171,42 @@
             </Grid.ColumnDefinitions>
 
             <!--  Version  -->
-            <Button x:Name="FP_VersionButton"
-                    FontFamily="Consolas"
-                    FontSize="14"
-                    Content="v1.0"
-                    ToolTipService.ToolTip="Ver notas"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Background="{x:Null}"
-                    Foreground="Black"/>
+            <Button
+                x:Name="FP_VersionButton"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Background="{x:Null}"
+                Content="vN.NN"
+                FontFamily="Consolas"
+                FontSize="14"
+                Foreground="Black"
+                ToolTipService.ToolTip="Historial de cambios" />
 
             <!--  Webpage  -->
-            <HyperlinkButton x:Name="FP_WebpageButton"
-                             Grid.Column="1"
-                             FontFamily="Segoe Script"
-                             FontSize="20"
-                             Content="PaatyDSM Apps"
-                             ToolTipService.ToolTip="Visitar sitio Web" 
-                             Tag="http://paatydsm.000webhostapp.com"
-                             Click="Footer_Click"/>
+            <HyperlinkButton
+                x:Name="FP_WebpageButton"
+                Grid.Column="1"
+                Click="Footer_Click"
+                Content="PaatyDSM Apps"
+                FontFamily="Segoe Script"
+                FontSize="20"
+                Tag="https://www.instagram.com/paatydsm/"
+                ToolTipService.ToolTip="Visitarme" />
 
             <!--  E-mail Link  -->
-            <HyperlinkButton x:Name="FP_EmailButton"
-                             Grid.Column="2"
-                             FontSize="12"
-                             Content="Contacto"
-                             ToolTipService.ToolTip="Enviar un mail"
-                             Tag="mailto:paaty.dsm@gmail.com?Subject=PaatyDSM Apps - MAIL"
-                             HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch"
-                             Click="Footer_Click" />
-            
+            <HyperlinkButton
+                x:Name="FP_EmailButton"
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Click="Footer_Click"
+                Content="Contacto"
+                FontSize="13"
+                Tag="mailto:paaty.dsm@gmail.com?Subject=PaatyDSM Apps - MAIL"
+                ToolTipService.ToolTip="Enviarme un mail" />
+
         </Grid>
 
     </Grid>
-    
+
 </Page>

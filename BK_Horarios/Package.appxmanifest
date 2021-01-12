@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="3541PaatyDSM.MisHorariosBK" Publisher="CN=FA25A77B-B143-493A-B7E5-9B11FE4BB879" Version="1.0.0.0" />
+  <Identity Name="3541PaatyDSM.MisHorariosBK" Publisher="CN=FA25A77B-B143-493A-B7E5-9B11FE4BB879" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="e5b9cb36-2927-42b2-b65b-d034b92dbaf6" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Mis Horarios BK</DisplayName>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="BK_HORARIOS.App">
-      <uap:VisualElements DisplayName="Mis Horarios BK" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Aplicación 'Mis Horarios BK' para Windows 10.  Autor: PaatyDSM Apps." BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="Mis Horarios BK" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Consultá tus horarios laborales ingresando tu legajo. Disponible para Android 5.0 o superior, Windows 8.1, Windows Phone 8.1, Windows 10, Windows 10 Mobile, Xbox y HoloLens. Desarrollado por PaatyDSM Apps." BackgroundColor="transparent">
         <uap:LockScreen Notification="badge" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
         </uap:DefaultTile>

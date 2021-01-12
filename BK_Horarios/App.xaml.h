@@ -17,13 +17,13 @@ namespace BK_HORARIOS
 	{
 	protected:
 		virtual void OnLaunched(LaunchActivatedEventArgs^ e) override;
-	
+
 	internal:
 		App();
 
 	private:
 		void OnSuspending(Object^ sender, SuspendingEventArgs^ e);
-		void OnNavigationFailed(Object ^sender, NavigationFailedEventArgs ^e);
+		void OnNavigationFailed(Object^ sender, NavigationFailedEventArgs^ e);
 	};
 }
 
