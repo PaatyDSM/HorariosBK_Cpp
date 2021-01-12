@@ -234,5 +234,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <None Include="PaatyDSMApps_TemporaryKey.pfx" />
   </ItemGroup>
 </Project>

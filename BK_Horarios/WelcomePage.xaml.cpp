@@ -19,8 +19,8 @@ using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 
-static String^ CurrentVersionNumber = "v1.1";
-static int CurrentVersionNumberInt = 110;
+static String^ CurrentVersionNumber = "v1.2";
+static int CurrentVersionNumberInt = 120;
 
 // Function start_fadein_animation
 void WelcomePage::WelcomePage::start_FadeInAnimation(void)

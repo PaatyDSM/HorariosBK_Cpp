@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="3541PaatyDSM.MisHorariosBK" Publisher="CN=FA25A77B-B143-493A-B7E5-9B11FE4BB879" Version="1.1.0.0" />
-  <mp:PhoneIdentity PhoneProductId="e5b9cb36-2927-42b2-b65b-d034b92dbaf6" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="3541PaatyDSM.MisHorariosBK" Publisher="CN=FA25A77B-B143-493A-B7E5-9B11FE4BB879" Version="1.2.0.0" />
+  <mp:PhoneIdentity PhoneProductId="dc4d1037-338e-4d69-b081-fe8917166127" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Mis Horarios BK</DisplayName>
     <PublisherDisplayName>PaatyDSM</PublisherDisplayName>

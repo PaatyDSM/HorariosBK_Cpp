@@ -55,7 +55,7 @@ void HorariosPage::OnNavigatedTo(NavigationEventArgs^ e)
 	client = ref new HttpClient(filter);
 
 	// Create url with 'legajo' string
-	string url = "http://proveedores.alsea.com.ar:25080/asignaciones-server/mobile/main/asignaciones/legajos/" + legajo;
+	string url = "http://proveedores.alsea.com.ar:48080/asignaciones-server/mobile/main/asignaciones/legajos/" + legajo;
 
 	// Save last used legajo
 	save_last_legajo(legajo);

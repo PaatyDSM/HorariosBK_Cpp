@@ -10,7 +10,7 @@ using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::System::Profile;
 
-static String^ CurrentVersionNumber = "1.1";
+static String^ CurrentVersionNumber = "1.2";
 
 ReleaseNotesPage::ReleaseNotesPage()
 {
@@ -73,6 +73,13 @@ void ReleaseNotesPage::Footer_Click(Object^ sender, RoutedEventArgs^ e)
 void ReleaseNotesPage::LoadReleaseNotes(void)
 {
 	Notes->Text =
+		"V1.2\n"
+		"*Fixed an adress error in the server that caused the lejajos not to be found.\n"
+		"*Changed minimun required Windows version to 10.0.10586 and updated libraries.\n"
+		"*Fix minor errors on links.\n"
+		"*Fixed certificates.\n"
+		"\n"
+		"------------------\n"
 		"V1.1\n"
 		"*Fixed crash in MainPage.\n"
 		"*Cache multiple legajos.\n"
@@ -84,7 +91,6 @@ void ReleaseNotesPage::LoadReleaseNotes(void)
 		"*GUI fixes in WelcomePage.\n"
 		"*GUI fixes in HorariosPage.\n"
 		"*GUI fixes in StatusMessage.\n"
-		"*Changed minimun required Windows version to 10.0.10586.\n"
 		"*Fixed BadgeLogo assets for certification.\n"
 		"*Update Webpage url.\n"
 		"*Updated certificates.\n"
@@ -104,4 +110,4 @@ void ReleaseNotesPage::LoadReleaseNotes(void)
 }
 
 
-		
+
