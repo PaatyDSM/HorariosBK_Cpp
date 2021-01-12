@@ -1,0 +1,254 @@
+﻿<Page
+    x:Class="BK_HORARIOS.WelcomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <!-- Animations -->
+    <Page.Resources>
+        <!--  Storyboard resource: WelcomepPage FadeIn.  -->
+        <Storyboard x:Name="WelcomepPage_FadeInAnimation">
+            <DoubleAnimation
+                Storyboard.TargetName="Page"
+                Storyboard.TargetProperty="Opacity"
+                From="0.0"
+                To="1.0"
+                Duration="0:0:0.5">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseIn" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <!--  Storyboard resource: WelcomepPage FadeOut.  -->
+        <Storyboard x:Name="WelcomepPage_FadeOutAnimation">
+            <DoubleAnimation
+                Storyboard.TargetName="Page"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="0.0"
+                Duration="0:0:0.25"
+                Completed="NavigatetoHorariosPage">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <!--  Storyboard resource: WelcomepPage FadeOut2.  -->
+        <Storyboard x:Name="WelcomepPage_ReleaseNotesFadeOutAnimation">
+            <DoubleAnimation
+                Storyboard.TargetName="Page"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="0.0"
+                Duration="0:0:0.5"
+                Completed="Release_Notes_Click">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+
+    <!-- Page -->
+    <Grid x:Name="Page"
+          Opacity="0"
+          Loaded="start_FadeInAnimation">
+        
+        <!-- BackgroundImage -->
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/pictures/b1.jpg"
+                        Stretch="UniformToFill"/>
+        </Grid.Background>
+        
+        <!-- RowDefinitions -->
+        <Grid.RowDefinitions>
+            <!--  ContentPanel  -->
+            <RowDefinition Height="*" />
+            <!--  FooterPanelV2  -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ContentPanel -->
+        <StackPanel x:Name="ContentPanel"
+                    Background="#99211200"
+                    VerticalAlignment="Center">
+
+            <!-- title_textblock -->
+            <Viewbox x:Name="title_textblock">
+                <TextBlock Text="Mis Horarios BK"
+                                   Margin="24,8"
+                                   HorizontalAlignment="Center"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   Foreground="#FFFF7000"/>
+            </Viewbox>
+
+            <!-- UpdatesBlock -->
+            <TextBlock x:Name="UpdateText"
+                       Margin="8"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       Foreground="#FFF5FAFF">
+                <LineBreak />
+                Ingresá con tu número de legajo
+                <LineBreak />
+            </TextBlock>
+
+            <!--  InputPanel  -->
+            <Grid x:Name="InputPanel"
+                      HorizontalAlignment="Center"
+                      Margin="12">
+                <!--  InputBlocks  -->
+                <Grid x:Name="InputBlocks"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <!--  textBlock  -->
+                        <ColumnDefinition Width="Auto" />
+                        <!--  InputField  -->
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="textBlock"
+                                   Margin="0,0,6,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="22"
+                                   Text="Legajo:"
+                                   TextWrapping="Wrap"
+                                   Foreground="#FFE6FFF6" />
+                    <!--  InputField  -->
+                    <TextBox x:Name="main_legajo_input"
+                                 Grid.Column="1"
+                                 Background="#7F808080"
+                                 BorderBrush="#FF1C4B4B"
+                                 BorderThickness="1"
+                                 FontSize="22"
+                                 InputScope="Number"
+                                 PlaceholderText=" Escribe tu legajo"
+                                 Text=""
+                                 TextWrapping="Wrap"
+                                 HorizontalAlignment="Left"
+                                 MaxLength="12"
+                                 TextAlignment="Center"
+                                 MinWidth="200"
+                                 Foreground="Black"
+                                 KeyDown="main_legajo_input_KeyDown"/>
+                </Grid>
+            </Grid>
+
+            <!--  ButtonPanel  -->
+            <Grid x:Name="ButtonPanel"
+                      Margin="24">
+                <Rectangle x:Name="Button_3D_Gradient"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           RadiusX="6"
+                           RadiusY="6"
+                           Opacity="1"
+                           Stroke="Transparent"
+                           MinHeight="34"
+                           MinWidth="256"
+                           RenderTransformOrigin="0.5,0.5" >
+                    <Rectangle.RenderTransform>
+                        <CompositeTransform ScaleX="1.1" ScaleY="1.2"/>
+                    </Rectangle.RenderTransform>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFFF7000" Offset="0"/>
+                            <GradientStop Color="#FFFE0000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="Border"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           RadiusX="6"
+                           RadiusY="6"
+                           Opacity="1"
+                           Stroke="Black"
+                           MinHeight="34"
+                           MinWidth="256"
+                           RenderTransformOrigin="0.5,0.5" StrokeThickness="2" >
+                    <Rectangle.RenderTransform>
+                        <CompositeTransform ScaleX="1.1" ScaleY="1.2"/>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Button x:Name="send_legajo"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="send_legajo_button"
+                    Content="Consultar horarios"
+                    FontFamily="Segoe WP"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    MinWidth="256"
+                    Foreground="LightGray"
+                    BorderThickness="1,1,2,2"
+                    RenderTransformOrigin="0.5,0.5" >
+                    <Button.RenderTransform>
+                        <CompositeTransform ScaleX="1.1" ScaleY="1.2"/>
+                    </Button.RenderTransform>
+                </Button>
+            </Grid>
+
+        </StackPanel>
+
+        <!--  FooterPanelV2  -->
+        <Grid x:Name="FooterPanelV2"
+              Grid.Row="1"
+              Background="#FFBEBEBE"
+              Height="38">
+
+            <!-- ColumnDefinitions -->
+            <Grid.ColumnDefinitions>
+                <!--  Version  -->
+                <ColumnDefinition Width="*" />
+                <!--  Webpage  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  Email  -->
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <!--  Version  -->
+            <Button x:Name="FP_VersionButton"
+                    FontFamily="Consolas"
+                    FontSize="14"
+                    Content="v1.0"
+                    ToolTipService.ToolTip="Ver notas"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="{x:Null}"
+                    Foreground="Black"
+                    Click="start_ReleaseNotesFadeOutAnimation" />
+            
+            <!--  Webpage  -->
+            <HyperlinkButton x:Name="FP_WebpageButton"
+                             Grid.Column="1"
+                             FontFamily="Segoe Script"
+                             FontSize="20"
+                             Content="PaatyDSM Apps"
+                             ToolTipService.ToolTip="Visitar sitio Web" 
+                             Tag="http://paatydsm.000webhostapp.com"
+                             Click="Footer_Click"/>
+            
+            <!--  E-mail Link  -->
+            <HyperlinkButton x:Name="FP_EmailButton"
+                             Grid.Column="2"
+                             FontSize="12"
+                             Content="Contacto"
+                             ToolTipService.ToolTip="Enviar un mail"
+                             Tag="mailto:paaty.dsm@gmail.com?Subject=PaatyDSM Apps - MAIL"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Click="Footer_Click" />
+            
+        </Grid>
+
+    </Grid>
+    
+</Page>
