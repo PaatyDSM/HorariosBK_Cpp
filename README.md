@@ -17,13 +17,13 @@ Arquitectura 	ARM, x64, x86.
 # Notas de versión:
 V1.2:
 
-  *Se corrigió un error en la dirección del servidor que causaba que no se encuentre el legajo.
+&nbsp;&nbsp;&nbsp;&nbsp;*Se corrigió un error en la dirección del servidor que causaba que no se encuentre el legajo.
   
-  *Se cambió la versión mínima requerida de Windows a 10.0.10586 y se actualizaron las bibliotecas.
+&nbsp;&nbsp;&nbsp;&nbsp;*Se cambió la versión mínima requerida de Windows a 10.0.10586 y se actualizaron las bibliotecas.
   
-  *Correcciones de errores menores en los enlaces.
+&nbsp;&nbsp;&nbsp;&nbsp;*Correcciones de errores menores en los enlaces.
   
-  *Certificados actualizados.
+&nbsp;&nbsp;&nbsp;&nbsp;*Certificados actualizados.
   
   
 #
